@@ -3,18 +3,18 @@ pipeline {
     stages {
         stage('Install Node') {
             steps {
-                sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash'
-                sh '. ~/.nvm/nvm.sh && nvm install 16 && nvm alias default 16'
+                sh 'curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -'
+                sh 'sudo apt-get install -y nodejs'
             }
         }
         stage('Install Dependencies') {
             steps {
-                sh '. ~/.nvm/nvm.sh && npm install'
+                sh 'npm install'
             }
         }
         stage('Test') {
             steps {
-                sh '. ~/.nvm/nvm.sh && npm test'
+                sh 'npm test'
             }
         }
     }
