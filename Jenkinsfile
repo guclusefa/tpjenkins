@@ -1,15 +1,15 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                sh 'mvn clean install'
+                sh 'npm install'
             }
         }
         stage('Test') {
             steps {
-                sh 'mvn test'
-                junit '**/target/surefire-reports/*.xml'
+                sh 'npm test'
+                junit '**/test-results/*.xml'
             }
         }
     }
