@@ -14,9 +14,16 @@ app.set('views', path.join(__dirname, 'views'));
 const user = require('./routes/user');
 const groupe = require('./routes/group');
 const usersGroups = require('./routes/usersGroups');
-app.use('/', user)
+app.use('/users', user)
 app.use('/groupe', groupe)
 app.use('/usersGroups', usersGroups)
+
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
 
 const PORT = process.env.PORT || 3000;
 

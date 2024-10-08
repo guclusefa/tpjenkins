@@ -16,6 +16,9 @@ async function createUser(req, res) {
   
       User.createUser(user, (err, result) => {
         if (err) {
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(409).send("Username already exists");
+            }
           console.error("Error creating user:", err);
           return res.status(500).send(err);
         }
