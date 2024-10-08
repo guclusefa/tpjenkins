@@ -5,17 +5,63 @@ const User = require("../models/user");
 jest.mock("../models/user");
 
 describe("GET /users", () => {
-  beforeAll(() => {
-    // Mock de la méthode getUsers pour simuler une réponse de la base de données
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it("should return all users", async () => {
     User.getUsers.mockImplementation((callback) => {
       callback(null, [
         { id: 1, username: "user1" },
-        { id: 2, username: "user2" },
+        { id: 2, username: "user2" }
       ]);
     });
+
+    const getUser = await request(app).get("/users");
+    expect(getUser.status).toBe(200);
+    expect(getUser.body).toEqual([
+      { id: 1, username: "user1" },
+      { id: 2, username: "user2" },
+    ]);
+  });
+});
+
+describe("POST /users/add", () => {
+  afterEach(() => {
+    jest.clearAllMocks();  // Nettoyage des mocks après chaque test
   });
 
-  it("verify 1 + 1 = 2", () => {
-    expect(1 + 1).toBe(2);
+  it("should create a new user", async () => {
+    // Mock l'implémentation de createUser pour simuler la création réussie d'un utilisateur
+    User.createUser.mockImplementation((user, callback) => {
+      callback(null, { insertId: 1 });
+    });
+
+    const newUser = { username: "newUser" };
+
+    const response = await request(app)
+      .post("/users/add")
+      .send(newUser);
+
+    expect(response.status).toBe(201);
+    expect(response.text).toBe("User added successfully");
+    expect(User.createUser).toHaveBeenCalledWith(newUser, expect.any(Function));
+  });
+
+  it("should return 409 if username already exists", async () => {
+    User.createUser.mockImplementation((user, callback) => {
+      const error = { code: 'ER_DUP_ENTRY' };
+      callback(error, null);
+    });
+
+    const duplicateUser = { username: "existingUser" };
+
+    const response = await request(app)
+      .post("/users/add")
+      .send(duplicateUser);
+
+    expect(response.status).toBe(409);
+    expect(response.text).toBe("Username already exists");
+    expect(User.createUser).toHaveBeenCalledWith(duplicateUser, expect.any(Function));
   });
 });

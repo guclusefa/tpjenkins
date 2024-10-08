@@ -4,6 +4,8 @@ async function getUsers(req, res) {
   User.getUsers((err, result) => {
     if (err) {
       res.send(err);
+    } else {
+      res.send(result);
     }
   });
 }
