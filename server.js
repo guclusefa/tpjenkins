@@ -11,8 +11,12 @@ app.use(express.json())
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-const home = require('./routes/home');
-app.use('/', home)
+const user = require('./routes/user');
+const groupe = require('./routes/group');
+const usersGroups = require('./routes/usersGroups');
+app.use('/', user)
+app.use('/groupe', groupe)
+app.use('/usersGroups', usersGroups)
 
 const PORT = process.env.PORT || 3000;
 
