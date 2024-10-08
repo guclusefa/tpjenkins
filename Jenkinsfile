@@ -1,24 +1,15 @@
 pipeline {
     agent any
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/guclusefa/tpjenkins'
-            }
-        }
         stage('Build') {
             steps {
-                sh 'echo "Build script here"'
+                sh 'mvn clean install'
             }
         }
         stage('Test') {
             steps {
-                sh 'echo "Test script here"'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                sh 'echo "Deploy script here"'
+                sh 'mvn test'
+                junit '**/target/surefire-reports/*.xml'
             }
         }
     }
