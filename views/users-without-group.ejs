@@ -1,8 +1,7 @@
 <%- include('_head'); -%>
 <div class="container mt-5">
-    <h1 class="">Bonjour <%= user.pseudo %> !</h1>
-
-
+    <h1 class="">Bonjour <span class="text-primary"><%= user.pseudo %> </span>!</h1>
+ 
     <% if (groupId) { %>
         <div class="text-center mt-4">
             <button class="btn btn-primary" onclick="location.href='/group-details/<%= groupId %>';">Voir votre groupe</button>
@@ -16,9 +15,14 @@
     <div class="d-flex justify-content-between mt-5">
         <h1 class="">Liste des utilisateurs sans groupe</h1>
         <% if (user.pseudo === "ADMIN") { %>
-            <button class="btn btn-primary" onclick="location.href='/groupe/create-group';">Créer un groupe</button>
+            <div class="d-flex gap-3">
+                <button class="btn btn-primary" onclick="location.href='/groupe/create-group';">Créer un groupe</button>
+                <input type="button" class="btn btn-secondary" onclick="location.href='/groupe/';" value="Voir tous les groupes" />
+            </div>
         <% } %>
     </div>
+
+    <hr>
 
     <ul class="list-group mt-3">
         <% if (users.length > 0) { %>
