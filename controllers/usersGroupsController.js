@@ -6,11 +6,11 @@ const crypto = require("crypto");
 async function assignUserToGroup(userID, groupID, res) {
   try {
     const utilisateursGroupes = {
-      UtilisateurID: userID,
-      GroupeID: groupID,
+      user_id: userID,
+      group_id: groupID,
     };
 
-    usersGroups.createUtilisateursGroupes(
+    usersGroups.createUsersGroups(
       utilisateursGroupes,
       (err, result) => {
         if (err) {
@@ -36,15 +36,14 @@ async function joinGroupWithInvitation(req, res) {
       return res.status(404).json({ error: "Invalid invitation token" });
     }
 
-    if (invitation[0].Etat !== "PENDING") {
+    if (invitation[0].status !== "PENDING") {
       console.error("Invitation already used:", invitation);
       return res.status(400).json({ error: "Invitation already used" });
     }
 
     if (!invitation.GroupeID) {
-      console.log("Creating new group...");
-      Group.createGroupe(
-        { nom: `Groupe de ${invitation.CreateurID}` },
+      Group.createGroup(
+        { name: `Groupe de ${invitation.creator_id}` },
         (err, groupResult) => {
           if (err) {
             console.error("Failed to create group:", err);
@@ -111,11 +110,18 @@ async function createGroupWithInvitation(req, res) {
   const { creatorID } = req.body;
   const token = crypto.randomBytes(16).toString("hex");
 
-  const invitation = {
+  console.log({
     GroupeID: null,
     Token: token,
     Etat: "PENDING",
     CreateurID: creatorID,
+  })
+
+  const invitation = {
+    group_id: null,
+    token: token,
+    status: "PENDING",
+    creator_id: creatorID,
   };
 
   Invitation.createInvitation(invitation, (err, result) => {

@@ -1,15 +1,15 @@
-const db = require("../config/db");
+const db = require('../config/db');
 
-class UtilisateursGroupes {
-    static getUtilisateursGroupes(callback) {
-        db.query("SELECT * FROM UtilisateursGroupes", (err, result) => {
+class UsersGroups {
+    static getUsersGroups(callback) {
+        db.query("SELECT * FROM users_groups", (err, result) => {
             if (err) throw err;
             callback(result);
         });
     }
 
-    static createUtilisateursGroupes(utilisateursGroupes, callback) {
-        db.query("INSERT INTO UtilisateursGroupes SET ?", utilisateursGroupes, (err, result) => {
+    static createUsersGroups(usersGroups, callback) {
+        db.query("INSERT INTO users_groups SET ?", usersGroups, (err, result) => {
             if (err) {
                 return callback(err, null);
             }
@@ -18,4 +18,4 @@ class UtilisateursGroupes {
     }
 }
 
-module.exports = UtilisateursGroupes;
+module.exports = UsersGroups;
