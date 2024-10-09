@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utilisateurs sans groupe</title>
+</head>
+<body>
+    <h1>Bonjour <%= user.pseudo %> !</h1>
+
+    <h1>Liste des utilisateurs sans groupe</h1>
+    <ul>
+        <% if (users.length > 0) { %>
+            <% users.forEach(user => { %>
+                <li><%= user.Username %></li>
+            <% }); %>
+        <% } else { %>
+            <li>Aucun utilisateur sans groupe trouvé.</li>
+        <% } %>
+    </ul>
+</body>
+</html>
