@@ -2,19 +2,19 @@ const Group = require("../models/group");
 
 async function listGroups(req, res) {
   Group.getAllGroups((err, groups) => {
-      if (err) {
-          return res.status(500).send("Erreur lors de la récupération des groupes");
-      }
+    if (err) {
+      return res.status(500).send("Erreur lors de la récupération des groupes");
+    }
 
-      res.render('list-groups', { groups }); // Render the view with the groups data
-
-
+    res.render("list-groups", { groups }); // Render the view with the groups data
+  });
 }
+
 async function createGroupe(req, res) {
   try {
     const groupe = {
       name: req.body.name,
-      max_users: req.body.max_users
+      max_users: req.body.max_users,
     };
 
     Group.createGroup(groupe, (err) => {
@@ -23,7 +23,7 @@ async function createGroupe(req, res) {
         return res.status(500).send(err);
       }
 
-      res.redirect("/users-without-group")
+      res.redirect("/users-without-group");
     });
   } catch (error) {
     console.error("Caught exception:", error);
@@ -31,13 +31,11 @@ async function createGroupe(req, res) {
   }
 }
 
-
-async function getCreateGroup(req, res){
-  res.render("./create-group" );
+async function getCreateGroup(req, res) {
+  res.render("./create-group");
 }
 module.exports = {
   listGroups,
   createGroupe,
-  getCreateGroup
-
+  getCreateGroup,
 };
