@@ -21,4 +21,10 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            // Publier les résultats JUnit
+            junit '**/reports/junit/*.xml'
+        }
+    }
 }
