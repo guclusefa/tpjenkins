@@ -1,5 +1,4 @@
 const User = require("../models/user");
-const jwt = require("jsonwebtoken");
 
 async function login(req, res) {
   User.getUserByName(req.body.username, async (err, users) => {

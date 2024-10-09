@@ -32,7 +32,6 @@ app.use('/', homeRoutes);
 app.use('/users', user)
 app.use('/groupe', groupe)
 app.use('/usersGroups', usersGroups)
-app.use('/auth', auth);
 
 
 if (require.main === module) {
