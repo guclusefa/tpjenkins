@@ -23,7 +23,6 @@
     "webpack-cli": "^5.1.4"
   },
   "scripts": {
-    "build": "webpack",
     "prod": "nodemon dist/final.js",
     "test": "jest --coverage",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/",
