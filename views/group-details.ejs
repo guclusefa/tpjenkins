@@ -1,27 +1,29 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détails du Groupe</title>
-</head>
-<body>
-    <h1>Détails du Groupe</h1>
+<%- include('_head'); -%>
+<div class="container mt-5">
+    <h1 class="text-center">Détails du Groupe</h1>
 
-    <h2>Nom du Groupe: <%= group.name %></h2>
-    <p>Description: <%= group.description %></p>
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2 class="mb-0">Nom du Groupe: <%= group.name %></h2>
+        </div>
+        <div class="card-body">
+            <p>Description: <%= group.description %></p>
 
-    <h3>Membres du Groupe:</h3>
-    <ul>
-        <% if (group.members.length > 0) { %>
-            <% group.members.forEach(member => { %>
-                <li><%= member.username %></li>
-            <% }); %>
-        <% } else { %>
-            <li>Aucun membre dans ce groupe.</li>
-        <% } %>
-    </ul>
+            <h3>Membres du Groupe:</h3>
+            <ul class="list-group">
+                <% if (group.members.length > 0) { %>
+                    <% group.members.forEach(member => { %>
+                        <li class="list-group-item"><%= member.username %></li>
+                    <% }); %>
+                <% } else { %>
+                    <li class="list-group-item">Aucun membre dans ce groupe.</li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
 
-    <a href="/users-without-group">Retourner à la liste des utilisateurs sans groupe</a>
-</body>
-</html>
+    <div class="mt-4">
+        <a href="/users-without-group" class="btn btn-primary">Retourner à la liste des utilisateurs sans groupe</a>
+    </div>
+</div>
+<%- include('_footer'); -%>
