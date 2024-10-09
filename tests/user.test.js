@@ -59,7 +59,7 @@ describe("POST /users/add", () => {
     expect(response.text).toBe("Username already exists");
     expect(User.createUser).toHaveBeenCalledWith(
       duplicateUser,
-      expect.any(Function)
+      expect.any(Function),
     );
   });
 });

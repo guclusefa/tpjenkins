@@ -1,27 +1,27 @@
-const db = require('../config/db');
+const db = require("../config/db");
 
 class Home {
   static getHome(callback) {
-    db.query('SELECT * FROM users', callback);
+    db.query("SELECT * FROM users", callback);
   }
 
   static checkUsernameExists(username, callback) {
-    const query = 'SELECT * FROM users WHERE username = ?'; 
+    const query = "SELECT * FROM users WHERE username = ?";
     db.query(query, [username], (err, results) => {
-        if (err) {
-            return callback(err, null);
-        }
-        callback(null, results.length > 0); 
+      if (err) {
+        return callback(err, null);
+      }
+      callback(null, results.length > 0);
     });
   }
 
   static saveUsername(username, callback) {
-    const query = 'INSERT INTO users (username) VALUES (?)'; 
+    const query = "INSERT INTO users (username) VALUES (?)";
     db.query(query, [username], (err, results) => {
-        if (err) {
-            return callback(err, null);
-        }
-        callback(null, results);
+      if (err) {
+        return callback(err, null);
+      }
+      callback(null, results);
     });
   }
 
@@ -33,10 +33,10 @@ class Home {
         WHERE users_groups.user_id IS NULL
     `;
     db.query(query, (err, results) => {
-        if (err) {
-            return callback(err, null);
-        }
-        callback(null, results);
+      if (err) {
+        return callback(err, null);
+      }
+      callback(null, results);
     });
   }
 
@@ -48,13 +48,13 @@ class Home {
         WHERE users.username = ?
     `;
     db.query(query, [username], (err, results) => {
-        if (err) {
-            return callback(err, null);
-        }
-        // Return the group ID if found, otherwise return null
-        callback(null, results.length > 0 ? results[0].group_id : null);
+      if (err) {
+        return callback(err, null);
+      }
+      // Return the group ID if found, otherwise return null
+      callback(null, results.length > 0 ? results[0].group_id : null);
     });
-}
+  }
 
   static getGroupDetails(groupId, callback) {
     const query = `
@@ -65,21 +65,23 @@ class Home {
             WHERE g.id = ?;
     `;
     db.query(query, [groupId], (err, results) => {
-        if (err) {
-            return callback(err, null);
-        }
+      if (err) {
+        return callback(err, null);
+      }
 
-        // Structure the data
-        const group = {
-            name: results[0]?.name || "Groupe inconnu",
-            description: results[0]?.description || "Pas de description disponible.",
-            members: results.map(result => ({ username: result.username })).filter(member => member.username),
-        };
+      // Structure the data
+      const group = {
+        name: results[0]?.name || "Groupe inconnu",
+        description:
+          results[0]?.description || "Pas de description disponible.",
+        members: results
+          .map((result) => ({ username: result.username }))
+          .filter((member) => member.username),
+      };
 
-        callback(null, group);
+      callback(null, group);
     });
-}
-  
+  }
 }
 
 module.exports = Home;

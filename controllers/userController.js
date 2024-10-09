@@ -31,20 +31,21 @@ async function createUser(req, res) {
     console.error("Caught exception:", error);
     res.status(400).send("Invalid JSON data");
   }
-};
+}
 
 async function listUsersWithoutGroup(req, res) {
   User.getUsersWithoutGroup((err, result) => {
-      if (err) {
-          return res.status(500).json({ error: "Failed to retrieve users", details: err });
-      }
-      res.status(200).json(result);
+    if (err) {
+      return res
+        .status(500)
+        .json({ error: "Failed to retrieve users", details: err });
+    }
+    res.status(200).json(result);
   });
 }
-
 
 module.exports = {
   getUsers,
   createUser,
-  listUsersWithoutGroup
+  listUsersWithoutGroup,
 };

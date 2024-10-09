@@ -66,5 +66,5 @@ async function configureGroups(req, res) {
 module.exports = {
   getGroupes,
   createGroupe,
-  configureGroups
+  configureGroups,
 };

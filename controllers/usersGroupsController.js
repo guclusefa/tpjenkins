@@ -48,55 +48,46 @@ async function joinGroupWithInvitation(req, res) {
 
         const groupName = `Groupe de ${creator[0].username}`;
 
-        Group.createGroup(
-          { name: groupName },
-          (err, groupResult) => {
-            if (err) {
-              console.error("Failed to create group:", err);
-              return res
-                .status(500)
-                .json({ error: "Failed to create group", details: err });
-            }
+        Group.createGroup({ name: groupName }, (err, groupResult) => {
+          if (err) {
+            console.error("Failed to create group:", err);
+            return res
+              .status(500)
+              .json({ error: "Failed to create group", details: err });
+          }
 
-            Invitation.updateGroup(
-              invitation[0].id,
-              groupResult.insertId,
-              (err) => {
+          Invitation.updateGroup(
+            invitation[0].id,
+            groupResult.insertId,
+            (err) => {
+              if (err) {
+                console.error("Failed to update invitation group:", err);
+                return res.status(500).json({
+                  error: "Failed to update invitation",
+                  details: err,
+                });
+              }
+
+              console.log(
+                "Invitation updated with new group ID:",
+                groupResult.insertId,
+              );
+
+              assignUserToGroup(userID, groupResult.insertId, res);
+
+              Invitation.updateStatus(invitation[0].id, "ACCEPTED", (err) => {
                 if (err) {
-                  console.error("Failed to update invitation group:", err);
-                  return res
-                    .status(500)
-                    .json({
-                      error: "Failed to update invitation",
-                      details: err,
-                    });
+                  console.error("Error updating invitation status:", err);
+                } else {
+                  console.log(
+                    "Invitation status updated to ACCEPTED for invitation ID:",
+                    invitation[0].id,
+                  );
                 }
-
-                console.log(
-                  "Invitation updated with new group ID:",
-                  groupResult.insertId,
-                );
-
-                assignUserToGroup(userID, groupResult.insertId, res);
-
-                Invitation.updateStatus(
-                  invitation[0].id,
-                  "ACCEPTED",
-                  (err) => {
-                    if (err) {
-                      console.error("Error updating invitation status:", err);
-                    } else {
-                      console.log(
-                        "Invitation status updated to ACCEPTED for invitation ID:",
-                        invitation[0].id,
-                      );
-                    }
-                  },
-                );
-              },
-            );
-          },
-        );
+              });
+            },
+          );
+        });
       });
     } else {
       assignUserToGroup(userID, invitation[0].group_id, res);

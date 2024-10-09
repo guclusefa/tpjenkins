@@ -1,9 +1,19 @@
-const db = require('../config/db');
+const db = require("../config/db");
 
 class Invitation {
   static createInvitation(invitation, callback) {
-    const sql = "INSERT INTO invitations (group_id, token, status, creator_id) VALUES (?, ?, ?, ?)";
-    db.query(sql, [invitation.group_id, invitation.token, invitation.status, invitation.creator_id], callback);
+    const sql =
+      "INSERT INTO invitations (group_id, token, status, creator_id) VALUES (?, ?, ?, ?)";
+    db.query(
+      sql,
+      [
+        invitation.group_id,
+        invitation.token,
+        invitation.status,
+        invitation.creator_id,
+      ],
+      callback,
+    );
   }
 
   static getByToken(token, callback) {
@@ -19,12 +29,12 @@ class Invitation {
   static updateStatus(invitationID, newStatus, callback) {
     const sql = "UPDATE invitations SET status = ? WHERE id = ?";
     db.query(sql, [newStatus, invitationID], (err, result) => {
-        if (err) {
-            console.error("SQL Error during invitation status update:", err);
-        } else {
-            console.log("Invitation status update result:", result);
-        }
-        callback(err, result);
+      if (err) {
+        console.error("SQL Error during invitation status update:", err);
+      } else {
+        console.log("Invitation status update result:", result);
+      }
+      callback(err, result);
     });
   }
 }
