@@ -7,11 +7,9 @@ async function listGroups(req, res) {
       }
 
       res.render('list-groups', { groups }); // Render the view with the groups data
-  });
 
 
 }
-
 async function createGroupe(req, res) {
   try {
     const groupe = {
