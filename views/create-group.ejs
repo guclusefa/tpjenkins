@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer un Groupe</title>
+</head>
+<body>
+    <h1>Créer un Nouveau Groupe</h1>
+    
+    <form action="/groupe/create-group" method="POST"> 
+        <div>
+            <label for="name">Nom du Groupe:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div>
+            <label for="max_users">Nombre Maximum d'Utilisateurs:</label>
+            <input type="number" id="max_users" name="max_users" min="1" required>
+        </div>
+        <button type="submit">Créer le Groupe</button>
+    </form>
+
+    <a href="/users-without-group">Retourner à la liste des utilisateurs sans groupe</a>
+</body>
+</html>
