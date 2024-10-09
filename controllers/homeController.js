@@ -28,7 +28,7 @@ async function connect(req, res) {
             if (exists) {
                 // Le pseudo existe déjà, connecter l'utilisateur
                 req.session.user = { pseudo }; // Stocke le pseudo dans la session
-                return res.send(`Bienvenue de retour, ${pseudo} ! Vous êtes maintenant connecté.`);
+                return res.redirect('/users-without-group');
             }
 
             // Si le pseudo n'existe pas, l'insérer
@@ -39,7 +39,7 @@ async function connect(req, res) {
                 // Pseudo enregistré avec succès
                 req.session.user = { pseudo }; // Stocke le pseudo dans la session
 
-                res.send(`Compte créé et connecté avec le pseudo "${pseudo}"`);
+                return res.redirect('/users-without-group');
             });
         });
     } catch (err) {
@@ -48,7 +48,17 @@ async function connect(req, res) {
     }
 }
 
+async function listUsersWithoutGroup(req, res) {
+    const user = req.session.user;
+    Home.getUsersWithoutGroup((err, users) => {
+        if (err) {
+            return res.status(500).send("Erreur lors de la récupération des utilisateurs sans groupe");
+        }
+        res.render('users-without-group', { users, user }); // Envoyer la liste des utilisateurs sans groupe à la vue
+    });
+}
 module.exports = {
     homepage,
-    connect
+    connect,
+    listUsersWithoutGroup
 };
