@@ -25,21 +25,18 @@ async function connect(req, res) {
       }
 
       if (exists) {
-        // Le pseudo existe déjà, connecter l'utilisateur
-        req.session.user = { pseudo }; // Stocke le pseudo dans la session
+        req.session.user = { pseudo };
 
         return res.redirect("/users-without-group");
       }
 
-      // Si le pseudo n'existe pas, l'insérer
-      Home.saveUsername(pseudo, (err, result) => {
+      Home.saveUsername(pseudo, (err) => {
         if (err) {
           return res
             .status(500)
             .send("Erreur lors de l'enregistrement du pseudo");
         }
-        // Pseudo enregistré avec succès
-        req.session.user = { pseudo }; // Stocke le pseudo dans la session
+        req.session.user = { pseudo };
 
         return res.redirect("/users-without-group");
       });
@@ -53,7 +50,6 @@ async function connect(req, res) {
 async function listUsersWithoutGroup(req, res) {
   const user = req.session.user;
 
-  // Add a check to find the user's group ID
   Home.getUserGroupId(user.pseudo, (err, groupId) => {
     if (err) {
       return res
@@ -67,23 +63,21 @@ async function listUsersWithoutGroup(req, res) {
           .status(500)
           .send("Erreur lors de la récupération des utilisateurs sans groupe");
       }
-      res.render("users-without-group", { users, user, groupId }); // Pass the groupId to the view
+      res.render("users-without-group", { users, user, groupId });
     });
   });
 }
 
 async function getGroupDetails(req, res) {
-  const groupId = req.params.groupId; // Get the groupId from the URL parameters
+  const groupId = req.params.groupId;
   console.log(groupId);
   try {
-    // Fetch the group details and members from the model
     Home.getGroupDetails(groupId, (err, group) => {
       if (err) {
         return res
           .status(500)
           .send("Erreur lors de la récupération des détails du groupe");
       }
-      // Render the group details view with the group data
       res.render("group-details", { group });
     });
   } catch (err) {

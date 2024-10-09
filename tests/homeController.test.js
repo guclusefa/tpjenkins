@@ -1,14 +1,12 @@
 const {
-  homepage,
   connect,
-  listUsersWithoutGroup,
 } = require("../controllers/homeController");
 const Home = require("../models/home");
 
-jest.mock("../models/home"); // Mock le module Home
+jest.mock("../models/home");
 
 describe("Home Controller", () => {
-  let req, res, next;
+  let req, res;
 
   beforeEach(() => {
     req = {
@@ -22,8 +20,7 @@ describe("Home Controller", () => {
       render: jest.fn(),
       send: jest.fn(),
       redirect: jest.fn(),
-    };
-    next = jest.fn();
+    }
   });
 
   describe("connect", () => {
