@@ -22,7 +22,7 @@ pipeline {
             }
         }
         stage('SonarQube Analysis') {
-            steps {s
+            steps {
                 sh 'sonar-scanner'
             }
         }
