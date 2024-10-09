@@ -16,9 +16,12 @@ app.set('views', path.join(__dirname, 'views'));
 const user = require('./routes/user');
 const groupe = require('./routes/group');
 const usersGroups = require('./routes/usersGroups');
+const auth = require('./routes/auth');
+
 app.use('/users', user)
 app.use('/groupe', groupe)
 app.use('/usersGroups', usersGroups)
+app.use('/auth', auth);
 
 if (require.main === module) {
   const PORT = process.env.PORT || 3000;

@@ -13,7 +13,7 @@ describe("GET /users", () => {
     User.getUsers.mockImplementation((callback) => {
       callback(null, [
         { id: 1, username: "user1" },
-        { id: 2, username: "user2" }
+        { id: 2, username: "user2" },
       ]);
     });
 
@@ -28,20 +28,17 @@ describe("GET /users", () => {
 
 describe("POST /users/add", () => {
   afterEach(() => {
-    jest.clearAllMocks();  // Nettoyage des mocks après chaque test
+    jest.clearAllMocks();
   });
 
   it("should create a new user", async () => {
-    // Mock l'implémentation de createUser pour simuler la création réussie d'un utilisateur
     User.createUser.mockImplementation((user, callback) => {
       callback(null, { insertId: 1 });
     });
 
     const newUser = { username: "newUser" };
 
-    const response = await request(app)
-      .post("/users/add")
-      .send(newUser);
+    const response = await request(app).post("/users/add").send(newUser);
 
     expect(response.status).toBe(201);
     expect(response.text).toBe("User added successfully");
@@ -50,18 +47,19 @@ describe("POST /users/add", () => {
 
   it("should return 409 if username already exists", async () => {
     User.createUser.mockImplementation((user, callback) => {
-      const error = { code: 'ER_DUP_ENTRY' };
+      const error = { code: "ER_DUP_ENTRY" };
       callback(error, null);
     });
 
     const duplicateUser = { username: "existingUser" };
 
-    const response = await request(app)
-      .post("/users/add")
-      .send(duplicateUser);
+    const response = await request(app).post("/users/add").send(duplicateUser);
 
     expect(response.status).toBe(409);
     expect(response.text).toBe("Username already exists");
-    expect(User.createUser).toHaveBeenCalledWith(duplicateUser, expect.any(Function));
+    expect(User.createUser).toHaveBeenCalledWith(
+      duplicateUser,
+      expect.any(Function)
+    );
   });
 });
