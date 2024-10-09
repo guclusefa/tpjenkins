@@ -1,6 +1,10 @@
 <body>
     <h1>Bonjour <%= user.pseudo %> !</h1>
 
+    <%if (user.pseudo == "ADMIN"){ %>
+        <input type="button" onclick="location.href='/groupe/create-group';" value="Créer un groupe" />
+    <% } %>
+
     <% if (groupId) { %>
        
         <input type="button" onclick="location.href='/group-details/<%= groupId %>';" value="Voir votre groupe" />

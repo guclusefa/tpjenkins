@@ -11,7 +11,8 @@ async function getGroupes(req, res) {
 async function createGroupe(req, res) {
   try {
     const groupe = {
-      nom: req.body.nom,
+      name: req.body.name,
+      max_users: req.body.max_users
     };
 
     Group.createGroup(groupe, (err, result) => {
@@ -20,7 +21,7 @@ async function createGroupe(req, res) {
         return res.status(500).send(err);
       }
 
-      res.status(201).send("Groupe added successfully");
+      res.redirect("/users-without-group")
     });
   } catch (error) {
     console.error("Caught exception:", error);
@@ -63,8 +64,12 @@ async function configureGroups(req, res) {
   res.status(201).json({ message: "Groups configured successfully", groupes });
 }
 
+async function getCreateGroup(req, res){
+  res.render("./create-group" );
+}
 module.exports = {
   getGroupes,
   createGroupe,
   configureGroups,
+  getCreateGroup
 };
