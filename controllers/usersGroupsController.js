@@ -4,7 +4,7 @@ const Group = require("../models/group");
 const User = require("../models/user");
 const crypto = require("crypto");
 
-async function assignUserToGroup(userID, groupID, res) {
+async function assignUserToGroup(userID, groupID, res = null) {
   try {
     const utilisateursGroupes = {
       user_id: userID,
@@ -14,14 +14,24 @@ async function assignUserToGroup(userID, groupID, res) {
     usersGroups.createUsersGroups(utilisateursGroupes, (err) => {
       if (err) {
         console.error("Error assigning user to group:", err);
-        return res.status(500).send(err);
+        if (res && typeof res.status === "function") {
+          return res.status(500).send(err);
+        }
+        throw err;
       }
 
-      res.status(201).send("User assigned to group successfully");
+      console.log(`User ${userID} assigned to group ${groupID}`);
+      if (res && typeof res.status === "function") {
+        res.status(201).send("User assigned to group successfully");
+      }
     });
   } catch (error) {
     console.error("Caught exception:", error);
-    res.status(400).send("Invalid data");
+    if (res && typeof res.status === "function") {
+      res.status(400).send("Invalid data");
+    } else {
+      throw error;
+    }
   }
 }
 
@@ -68,11 +78,7 @@ async function joinGroupWithInvitation(req, res) {
                 });
               }
 
-              console.log(
-                "Invitation updated with new group ID:",
-                groupResult.insertId,
-              );
-
+              assignUserToGroup(invitation[0].creator_id, groupResult.insertId);
               assignUserToGroup(userID, groupResult.insertId, res);
 
               Invitation.updateStatus(invitation[0].id, "ACCEPTED", (err) => {
@@ -92,7 +98,6 @@ async function joinGroupWithInvitation(req, res) {
     } else {
       assignUserToGroup(userID, invitation[0].group_id, res);
 
-      // Correct access to invitation[0]
       Invitation.updateStatus(invitation[0].id, "ACCEPTED", (err) => {
         if (err) {
           console.error("Error updating invitation status:", err);

@@ -1,29 +1,37 @@
 <%- include('_head'); -%>
 <div class="container mt-5">
-    <h1 class="text-center">Bonjour <%= user.pseudo %> !</h1>
+    <h1 class="">Bonjour <%= user.pseudo %> !</h1>
 
     <%if (user.pseudo == "ADMIN"){ %>
-        <input type="button" onclick="location.href='/groupe/create-group';" value="Créer un groupe" />
         <input type="button" onclick="location.href='/groupe/';" value="Voir tous les groupes" />
 
     <% } %>
+
 
     <% if (groupId) { %>
         <div class="text-center mt-4">
             <button class="btn btn-primary" onclick="location.href='/group-details/<%= groupId %>';">Voir votre groupe</button>
         </div>
     <% } else { %>
-        <h2 class="text-center mt-4">Vous n'êtes pas dans un groupe.</h2>
+        <div class="alert alert-warning text-center mt-4" role="alert">
+            <h2>Vous n'êtes pas dans un groupe.</h2>
+        </div>
     <% } %>
+ 
+    <div class="d-flex justify-content-between mt-5">
+        <h1 class="">Liste des utilisateurs sans groupe</h1>
+        <% if (user.pseudo === "ADMIN") { %>
+            <button class="btn btn-primary" onclick="location.href='/groupe/create-group';">Créer un groupe</button>
+        <% } %>
+    </div>
 
-    <h1 class="mt-5">Liste des utilisateurs sans groupe</h1>
     <ul class="list-group mt-3">
         <% if (users.length > 0) { %>
             <% users.forEach(user => { %>
                 <li class="list-group-item"><%= user.username %></li>
             <% }); %>
         <% } else { %>
-            <li class="list-group-item">Aucun utilisateur sans groupe trouvé.</li>
+            <li class="list-group-item text-center">Aucun utilisateur sans groupe trouvé.</li>
         <% } %>
     </ul>
 </div>
