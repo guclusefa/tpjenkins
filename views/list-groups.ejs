@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des Groupes</title>
+</head>
+<body>
+    <h1>Liste des Groupes</h1>
+
+    <% if (groups) { %>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Nom du Groupe</th>
+                    <th>Nombre Maximum d'Utilisateurs</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% groups.forEach(group => { %>
+                    <tr>
+                        <td><%= group.name %></td>
+                        <td><%= group.max_users %></td>
+                        <td>
+                            <a href="/group-details/<%= group.id %>">Voir Détails</a> <!-- Adjust the route as needed -->
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>Aucun groupe disponible.</p>
+    <% } %>
+
+    <a href="/create-group">Créer un Nouveau Groupe</a> <!-- Adjust the route to create a group -->
+</body>
+</html>

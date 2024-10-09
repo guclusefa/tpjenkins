@@ -1,11 +1,15 @@
 const Group = require("../models/group");
 
-async function getGroupes(req, res) {
-  Group.getGroups((err) => {
-    if (err) {
-      res.send(err);
-    }
+async function listGroups(req, res) {
+  Group.getAllGroups((err, groups) => {
+      if (err) {
+          return res.status(500).send("Erreur lors de la récupération des groupes");
+      }
+
+      res.render('list-groups', { groups }); // Render the view with the groups data
   });
+
+
 }
 
 async function createGroupe(req, res) {
@@ -34,7 +38,7 @@ async function getCreateGroup(req, res){
   res.render("./create-group" );
 }
 module.exports = {
-  getGroupes,
+  listGroups,
   createGroupe,
   getCreateGroup
 

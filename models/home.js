@@ -72,8 +72,6 @@ class Home {
       // Structure the data
       const group = {
         name: results[0]?.name || "Groupe inconnu",
-        description:
-          results[0]?.description || "Pas de description disponible.",
         members: results
           .map((result) => ({ username: result.username }))
           .filter((member) => member.username),
