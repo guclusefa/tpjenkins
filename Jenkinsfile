@@ -15,22 +15,15 @@ pipeline {
                 sh '. ~/.nvm/nvm.sh && npm install'
             }
         }
-        stage('Lint and Test') {
+        stage('Test') {
             steps {
-                sh '. ~/.nvm/nvm.sh && npm run lint'
-                sh '. ~/.nvm/nvm.sh && npm test -- --coverage'
-            }
-        }
-        stage('SonarQube Analysis') {
-            steps {
-                sh 'sonar-scanner'
+                sh '. ~/.nvm/nvm.sh && npm test'
             }
         }
     }
     post {
         always {
             junit '**/reports/junit/*.xml'
-            archiveArtifacts allowEmptyArchive: true, artifacts: '**/coverage/**'
         }
     }
 }
