@@ -1,6 +1,5 @@
 const Home = require('../models/home');
 
-// Fonction pour gérer la page d'accueil
 async function homepage(req, res) {
     Home.getHome((err, classes) => {
         if (err) {
@@ -19,7 +18,6 @@ async function connect(req, res) {
             return res.status(400).send("Pseudo requis");
         }
 
-        // Vérifier si le pseudo existe déjà dans la base de données
         Home.checkPseudoExists(pseudo, (err, exists) => {
             if (err) {
                 return res.status(500).send("Erreur lors de la vérification du pseudo");
