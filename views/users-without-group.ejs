@@ -2,6 +2,12 @@
 <div class="container mt-5">
     <h1 class="text-center">Bonjour <%= user.pseudo %> !</h1>
 
+    <%if (user.pseudo == "ADMIN"){ %>
+        <input type="button" onclick="location.href='/groupe/create-group';" value="Créer un groupe" />
+        <input type="button" onclick="location.href='/user/create-group';" value="Ajouter eleve a un groupe" />
+
+    <% } %>
+
     <% if (groupId) { %>
         <div class="text-center mt-4">
             <button class="btn btn-primary" onclick="location.href='/group-details/<%= groupId %>';">Voir votre groupe</button>

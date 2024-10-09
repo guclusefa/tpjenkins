@@ -16,6 +16,8 @@ class Group {
       callback(null, result);
     });
   }
+
+  
 }
 
 module.exports = Group;
