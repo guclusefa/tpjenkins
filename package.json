@@ -19,7 +19,7 @@
     "supertest": "^7.0.0"
   },
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "lint": "eslint \"**/*.js\" --ignore-pattern node_modules/",
     "prettier:format": "npx prettier . --write",
     "prettier:check": "npx prettier . --check"
