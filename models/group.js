@@ -1,12 +1,15 @@
 const db = require("../config/db");
 
 class Group {
-  static getGroups(callback) {
-    db.query("SELECT * FROM groups", (err, result) => {
-      if (err) throw err;
-      callback(result);
+  static getAllGroups(callback) {
+    const query = 'SELECT * FROM groups';
+    db.query(query, (err, results) => {
+        if (err) {
+            return callback(err, null);
+        }
+        callback(null, results);
     });
-  }
+}
 
   static createGroup(group, callback) {
     db.query("INSERT INTO groups SET ?", group, (err, result) => {
