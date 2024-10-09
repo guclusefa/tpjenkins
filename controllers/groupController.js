@@ -1,7 +1,7 @@
 const Group = require("../models/group");
 
 async function getGroupes(req, res) {
-  Groupe.getGroupes((err, result) => {
+  Group.getGroups((err) => {
     if (err) {
       res.send(err);
     }
@@ -14,7 +14,7 @@ async function createGroupe(req, res) {
       nom: req.body.nom,
     };
 
-    Group.createGroup(groupe, (err, result) => {
+    Group.createGroup(groupe, (err) => {
       if (err) {
         console.error("Error creating groupe:", err);
         return res.status(500).send(err);
@@ -28,43 +28,7 @@ async function createGroupe(req, res) {
   }
 }
 
-async function configureGroups(req, res) {
-  const { nombreUtilisateurs, nombreGroupes, configuration } = req.body;
-
-  const utilisateursParGroupe = Math.floor(nombreUtilisateurs / nombreGroupes);
-  const reste = nombreUtilisateurs % nombreGroupes;
-
-  let groupes = [];
-  for (let i = 0; i < nombreGroupes; i++) {
-    let tailleGroupe;
-    if (i === nombreGroupes - 1 && reste !== 0) {
-      tailleGroupe =
-        configuration === "LAST_MIN"
-          ? utilisateursParGroupe - 1
-          : utilisateursParGroupe + 1;
-    } else {
-      tailleGroupe = utilisateursParGroupe;
-    }
-
-    const groupe = {
-      nom: `Groupe ${i + 1}`,
-    };
-    Group.createGroup(groupe, (err, result) => {
-      if (err) {
-        return res
-          .status(500)
-          .json({ error: "Error creating group", details: err });
-      }
-    });
-
-    groupes.push(groupe);
-  }
-
-  res.status(201).json({ message: "Groups configured successfully", groupes });
-}
-
 module.exports = {
   getGroupes,
   createGroupe,
-  configureGroups,
 };
