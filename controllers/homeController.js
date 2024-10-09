@@ -12,13 +12,14 @@ async function homepage(req, res) {
 
 async function connect(req, res) {
     try {
+        console.log(req.body)
         const pseudo = req.body.pseudo; 
 
         if (!pseudo) {
             return res.status(400).send("Pseudo requis");
         }
 
-        Home.checkPseudoExists(pseudo, (err, exists) => {
+        Home.checkUsernameExists(pseudo, (err, exists) => {
             if (err) {
                 return res.status(500).send("Erreur lors de la vérification du pseudo");
             }
@@ -30,7 +31,7 @@ async function connect(req, res) {
             }
 
             // Si le pseudo n'existe pas, l'insérer
-            Home.savePseudo(pseudo, (err, result) => {
+            Home.saveUsername(pseudo, (err, result) => {
                 if (err) {
                     return res.status(500).send("Erreur lors de l'enregistrement du pseudo");
                 }

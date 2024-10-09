@@ -1,15 +1,15 @@
 const db = require('../config/db');
 
-class Groupe {
-    static getGroupes(callback) {
-        db.query("SELECT * FROM Groupes", (err, result) => {
+class Group {
+    static getGroups(callback) {
+        db.query("SELECT * FROM groups", (err, result) => {
             if (err) throw err;
             callback(result);
         });
     }
 
-    static createGroupe(groupe, callback) {
-        db.query("INSERT INTO Groupes SET ?", groupe, (err, result) => {
+    static createGroup(group, callback) {
+        db.query("INSERT INTO groups SET ?", group, (err, result) => {
             if (err) {
                 return callback(err, null);
             }
@@ -18,4 +18,4 @@ class Groupe {
     }
 }
 
-module.exports = Groupe;
+module.exports = Group;

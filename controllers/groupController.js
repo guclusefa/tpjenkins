@@ -1,5 +1,4 @@
 const Group = require("../models/group");
-const Invitation = require("../models/invitation");
 
 async function getGroupes(req, res) {
   Groupe.getGroupes((err, result) => {
@@ -15,7 +14,7 @@ async function createGroupe(req, res) {
       nom: req.body.nom,
     };
 
-    Group.createGroupe(groupe, (err, result) => {
+    Group.createGroup(groupe, (err, result) => {
       if (err) {
         console.error("Error creating groupe:", err);
         return res.status(500).send(err);
@@ -50,7 +49,7 @@ async function configureGroups(req, res) {
     const groupe = {
       nom: `Groupe ${i + 1}`,
     };
-    Group.createGroupe(groupe, (err, result) => {
+    Group.createGroup(groupe, (err, result) => {
       if (err) {
         return res
           .status(500)
