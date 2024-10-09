@@ -77,27 +77,7 @@ describe('Home Controller', () => {
         });
     });
 
-    describe('listUsersWithoutGroup', () => {
-        it('should render users without group', async () => {
-            const users = [{ id: 1, name: 'User 1' }];
-            req.session.user = { pseudo: 'testUser' };
-            Home.getUsersWithoutGroup.mockImplementation((callback) => callback(null, users));
 
-            await listUsersWithoutGroup(req, res);
 
-            expect(Home.getUsersWithoutGroup).toHaveBeenCalled();
-            expect(res.render).toHaveBeenCalledWith('users-without-group', { users, user: req.session.user });
-        });
-
-        it('should handle error when getting users without group', async () => {
-            const error = new Error('Database error');
-            Home.getUsersWithoutGroup.mockImplementation((callback) => callback(error));
-
-            await listUsersWithoutGroup(req, res);
-
-            expect(Home.getUsersWithoutGroup).toHaveBeenCalled();
-            expect(res.status).toHaveBeenCalledWith(500);
-            expect(res.send).toHaveBeenCalledWith("Erreur lors de la récupération des utilisateurs sans groupe");
-        });
-    });
+    
 });

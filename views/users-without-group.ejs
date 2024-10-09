@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Utilisateurs sans groupe</title>
-</head>
 <body>
     <h1>Bonjour <%= user.pseudo %> !</h1>
+
+    <% if (groupId) { %>
+       
+        <input type="button" onclick="location.href='/group-details/<%= groupId %>';" value="Voir votre groupe" />
+
+    <% } else { %>
+        <h2>Vous n'êtes pas dans un groupe.</h2>
+    <% } %>
 
     <h1>Liste des utilisateurs sans groupe</h1>
     <ul>
@@ -19,4 +20,3 @@
         <% } %>
     </ul>
 </body>
-</html>
