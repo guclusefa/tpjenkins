@@ -1,13 +1,13 @@
 const Group = require("../models/group");
 
 async function getGroupes(req, res) {
-  Group.getGroups((err) => {
+  Group.getGroups((err, groups) => {
     if (err) {
-      res.send(err);
+      return res.send(err);
     }
+    res.render("groups", { groups });
   });
 }
-
 async function createGroupe(req, res) {
   try {
     const groupe = {
